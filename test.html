@@ -1,0 +1,1332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gate Pass Management App — UI Mockup</title>
+  <style>
+    /* ---------------------------
+      DESIGN SYSTEM (Mobile-first)
+    ----------------------------*/
+    :root{
+      --bg: #F5F7FB;
+      --surface: #FFFFFF;
+      --surface-2: #F8FAFD;
+      --stroke: #E5EAF2;
+      --text: #0F172A;
+      --muted: #64748B;
+
+      --primary: #1F5EFF;      /* corporate blue */
+      --primary-700:#1B4FE0;
+      --primary-50:#EEF4FF;
+
+      --success:#16A34A;
+      --success-50:#EAF9F0;
+
+      --warning:#F59E0B;       /* amber */
+      --warning-50:#FFF6E6;
+
+      --danger:#EF4444;
+      --danger-50:#FFECEC;
+
+      --radius: 16px;
+      --radius-sm: 12px;
+
+      --shadow: 0 10px 30px rgba(15, 23, 42, .08);
+      --shadow-soft: 0 8px 18px rgba(15, 23, 42, .06);
+
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1000px 500px at 20% -10%, rgba(31,94,255,.12), transparent 60%),
+        radial-gradient(900px 450px at 90% 10%, rgba(22,163,74,.10), transparent 55%),
+        var(--bg);
+    }
+
+    .page{
+      max-width: 1400px;
+      margin: 26px auto 50px;
+      padding: 0 18px 40px;
+    }
+
+    .masthead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom: 18px;
+    }
+    .masthead h1{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.2px;
+      font-weight: 800;
+    }
+    .masthead p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      max-width: 860px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(229,234,242,.9);
+      box-shadow: var(--shadow-soft);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .dot{ width:8px; height:8px; border-radius: 999px; background: var(--primary); }
+
+    /* Grid of devices (presentation layout) */
+    .grid{
+      display:grid;
+      gap: 18px;
+      grid-template-columns: repeat(12, 1fr);
+      align-items:start;
+    }
+
+    /* Device shells */
+    .device{
+      border-radius: 28px;
+      background: #0B1220;
+      padding: 12px;
+      box-shadow: 0 22px 60px rgba(2, 6, 23, .35);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .device .glass{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 22px;
+      padding: 10px;
+    }
+    .device .screen{
+      background: var(--surface);
+      border-radius: 18px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Phone sizing */
+    .phone{ grid-column: span 4; }
+    .phone .screen{ width: 360px; height: 760px; }
+
+    /* Tablet sizing */
+    .tablet{ grid-column: span 6; }
+    .tablet .screen{ width: 560px; height: 760px; }
+
+    @media (max-width: 1200px){
+      .phone{ grid-column: span 6; }
+      .tablet{ grid-column: span 12; }
+    }
+    @media (max-width: 860px){
+      .phone{ grid-column: span 12; }
+      .phone .screen{ width: 100%; height: 760px; }
+      .tablet .screen{ width: 100%; height: 760px; }
+    }
+
+    .screen-label{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(15,23,42,.78);
+      font-weight: 700;
+      letter-spacing:.2px;
+    }
+
+    /* Notch + status bar */
+    .statusbar{
+      height: 28px;
+      background: linear-gradient(to bottom, rgba(15,23,42,.04), transparent);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 12px;
+      font-size: 11px;
+      color: rgba(15,23,42,.70);
+    }
+    .pill{
+      width: 86px; height: 18px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.08);
+      margin: 0 auto;
+    }
+
+    /* App top bar */
+    .appbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 14px 10px;
+      gap: 10px;
+      background: linear-gradient(to bottom, #fff, #fff);
+      border-bottom: 1px solid var(--stroke);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 0;
+    }
+    .logo{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: var(--primary-50);
+      border: 1px solid rgba(31,94,255,.20);
+      display:grid; place-items:center;
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.05;
+      text-align:center;
+      padding: 4px;
+    }
+    .app-title{
+      display:flex; flex-direction:column; gap:2px;
+      min-width: 0;
+    }
+    .app-title .topline{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .app-title .headline{
+      font-size: 14px;
+      font-weight: 850;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .icon-btn{
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: #fff;
+      display:grid; place-items:center;
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+    }
+    .icon{
+      width: 18px; height: 18px;
+      stroke: rgba(15,23,42,.70);
+      stroke-width: 1.8;
+      fill:none;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    /* Content layout */
+    .content{
+      padding: 14px;
+      background: linear-gradient(to bottom, #fff, var(--surface-2));
+      height: calc(100% - 28px - 66px - 74px); /* statusbar + appbar + bottomnav */
+      overflow:auto;
+    }
+    .content.no-nav{
+      height: calc(100% - 28px - 66px);
+    }
+
+    .h1{
+      margin: 6px 0 2px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -.2px;
+    }
+    .sub{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.35;
+    }
+
+    /* Cards */
+    .row{ display:flex; gap: 10px; }
+    .card{
+      background: var(--surface);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+    .summary{
+      flex:1;
+      padding: 12px;
+      min-width:0;
+    }
+    .summary .k{ font-size: 12px; color: var(--muted); font-weight: 700; }
+    .summary .v{ margin-top: 6px; font-size: 22px; font-weight: 900; letter-spacing:-.2px; }
+
+    .btn{
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 850;
+      font-size: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      cursor: default;
+      user-select:none;
+    }
+    .btn.primary{ background: var(--primary); color: #fff; box-shadow: 0 14px 28px rgba(31,94,255,.24); }
+    .btn.primary:active{ background: var(--primary-700); }
+    .btn.ghost{ background: #fff; border-color: var(--stroke); color: rgba(15,23,42,.85); }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin: 14px 0 10px;
+    }
+    .section-title h3{
+      margin:0;
+      font-size: 13px;
+      color: rgba(15,23,42,.88);
+      letter-spacing:.2px;
+    }
+    .link{
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .request-card{
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .request-top{
+      display:flex; justify-content:space-between; align-items:flex-start; gap: 10px;
+    }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 12px;
+      color: rgba(15,23,42,.78);
+      font-weight: 700;
+    }
+    .purpose{
+      font-size: 14px;
+      font-weight: 900;
+      margin-top: 2px;
+    }
+    .meta{
+      margin-top: 10px;
+      display:flex; flex-wrap:wrap;
+      gap: 8px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* Status chips */
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing:.3px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .chip.approved{ background: var(--success-50); color: #137A3A; border-color: rgba(22,163,74,.18); }
+    .chip.pending{ background: var(--warning-50); color: #8A5A00; border-color: rgba(245,158,11,.22); }
+    .chip.rejected{ background: var(--danger-50); color: #9F1D1D; border-color: rgba(239,68,68,.22); }
+
+    /* Bottom nav */
+    .bottomnav{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--stroke);
+      height: 74px;
+      padding: 10px 12px 12px;
+      display:flex;
+      justify-content:space-between;
+      gap: 6px;
+    }
+    .navitem{
+      flex:1;
+      border-radius: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      padding: 10px;
+      color: rgba(15,23,42,.70);
+      border: 1px solid transparent;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .navitem.active{
+      background: var(--primary-50);
+      color: var(--primary);
+      border-color: rgba(31,94,255,.18);
+    }
+    .navitem svg{ width: 18px; height: 18px; stroke: currentColor; }
+
+    /* Form */
+    .form{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .field{
+      padding: 10px 12px 12px;
+    }
+    .label{
+      font-size: 12px;
+      color: rgba(15,23,42,.70);
+      font-weight: 800;
+      margin-bottom: 6px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .input{
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: #fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 0 12px;
+      color: rgba(15,23,42,.85);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .placeholder{ color: rgba(100,116,139,.9); font-weight: 700; }
+    .textarea{
+      height: 90px;
+      align-items:flex-start;
+      padding-top: 10px;
+      line-height:1.3;
+    }
+
+    .infocard{
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(31,94,255,.18);
+      background: linear-gradient(180deg, rgba(31,94,255,.08), rgba(31,94,255,.03));
+      color: rgba(15,23,42,.82);
+      font-size: 12.5px;
+      line-height: 1.35;
+      font-weight: 650;
+    }
+
+    /* Details */
+    .kv{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .kv .item{
+      padding: 10px 12px;
+    }
+    .kv .k{ font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing:.2px; }
+    .kv .v{ margin-top: 6px; font-size: 13px; font-weight: 900; }
+
+    /* Timeline */
+    .timeline{
+      margin-top: 10px;
+      padding: 12px;
+    }
+    .trow{
+      display:grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      padding: 8px 0;
+      position:relative;
+    }
+    .trow:not(:last-child)::after{
+      content:"";
+      position:absolute;
+      left: 10px;
+      top: 30px;
+      bottom: -10px;
+      width: 2px;
+      background: rgba(100,116,139,.18);
+      border-radius: 2px;
+    }
+    .ticon{
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      display:grid; place-items:center;
+      border: 1px solid var(--stroke);
+      background: #fff;
+    }
+    .ticon.ok{ border-color: rgba(22,163,74,.25); background: var(--success-50); color: var(--success); }
+    .ttext .title{
+      font-weight: 900; font-size: 13px;
+    }
+    .ttext .desc{
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    /* Big status card */
+    .status-card{
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(22,163,74,.25);
+      background: linear-gradient(180deg, rgba(22,163,74,.10), rgba(22,163,74,.04));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .status-card .big{
+      font-size: 22px;
+      font-weight: 1000;
+      letter-spacing: .6px;
+      color: #137A3A;
+    }
+
+    /* QR */
+    .qr-wrap{
+      margin-top: 10px;
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .qr{
+      width: 100%;
+      height: 320px; /* large & scannable */
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      background:
+        linear-gradient(90deg, rgba(15,23,42,.10) 1px, transparent 1px) 0 0 / 16px 16px,
+        linear-gradient(0deg, rgba(15,23,42,.08) 1px, transparent 1px) 0 0 / 16px 16px,
+        radial-gradient(circle at 18% 22%, rgba(15,23,42,.85) 0 18px, transparent 19px),
+        radial-gradient(circle at 82% 22%, rgba(15,23,42,.85) 0 18px, transparent 19px),
+        radial-gradient(circle at 18% 80%, rgba(15,23,42,.85) 0 18px, transparent 19px),
+        repeating-linear-gradient(45deg, rgba(15,23,42,.55) 0 6px, transparent 6px 12px);
+      background-blend-mode: normal;
+      position:relative;
+      box-shadow: 0 16px 30px rgba(15,23,42,.10);
+    }
+    .qr::before{
+      content:"QR CODE";
+      position:absolute;
+      left: 14px; top: 14px;
+      font-weight: 900;
+      font-size: 11px;
+      color: rgba(15,23,42,.55);
+      background: rgba(255,255,255,.78);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(229,234,242,.9);
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      background:#fff;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 10px;
+    }
+    .tab{
+      flex:1;
+      padding: 10px 10px;
+      border-radius: 14px;
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(15,23,42,.70);
+      text-align:center;
+      border: 1px solid transparent;
+    }
+    .tab.active{
+      background: var(--primary-50);
+      color: var(--primary);
+      border-color: rgba(31,94,255,.16);
+    }
+
+    /* Tablet security UI */
+    .tablet .content{
+      padding: 16px;
+    }
+    .split{
+      display:grid;
+      grid-template-columns: 1.3fr .9fr;
+      gap: 12px;
+    }
+    .scan-area{
+      padding: 14px;
+    }
+    .scanner{
+      height: 420px;
+      border-radius: 18px;
+      border: 2px dashed rgba(31,94,255,.35);
+      background:
+        radial-gradient(900px 420px at 20% 0%, rgba(31,94,255,.10), transparent 45%),
+        linear-gradient(180deg, rgba(15,23,42,.03), rgba(15,23,42,.01));
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .scanner::before{
+      content:"";
+      position:absolute;
+      inset: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(229,234,242,.9);
+      background: rgba(255,255,255,.55);
+    }
+    .scanline{
+      position:absolute;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: rgba(31,94,255,.65);
+      top: 52%;
+      box-shadow: 0 0 18px rgba(31,94,255,.55);
+    }
+    .scanner-text{
+      position:relative;
+      text-align:center;
+      padding: 0 30px;
+      z-index: 1;
+    }
+    .scanner-text .big{
+      font-weight: 1000;
+      font-size: 18px;
+      letter-spacing: -.2px;
+    }
+    .scanner-text .small{
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .manual{
+      padding: 14px;
+    }
+    .manual .input{
+      height: 50px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .verify{
+      padding: 14px;
+    }
+    .big-check{
+      width: 54px; height: 54px;
+      border-radius: 18px;
+      background: var(--success-50);
+      border: 1px solid rgba(22,163,74,.22);
+      display:grid; place-items:center;
+      box-shadow: 0 12px 26px rgba(22,163,74,.12);
+      margin-bottom: 10px;
+    }
+    .big-check svg{ width: 26px; height: 26px; stroke: var(--success); stroke-width: 2.4; }
+
+    .pill-status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(22,163,74,.10);
+      border: 1px solid rgba(22,163,74,.22);
+      font-weight: 950;
+      color: #137A3A;
+      font-size: 12px;
+      letter-spacing:.3px;
+    }
+
+    /* Footer workflow */
+    .workflow{
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.70);
+      box-shadow: var(--shadow-soft);
+    }
+    .workflow h3{ margin:0 0 10px; font-size: 13px; letter-spacing:.2px; }
+    .flow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      align-items:center;
+      color: rgba(15,23,42,.84);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .step{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: #fff;
+    }
+    .arrow{ color: rgba(100,116,139,.9); font-weight: 900; }
+
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="masthead">
+      <div>
+        <h1>Gate Pass Management App — Modern Corporate Mobile UI Mockup</h1>
+        <p>
+          Mobile-first employee experience + tablet-optimized security workflow. Clean white/light-grey surfaces, corporate blue primary,
+          clear approval states (green/amber/red), rounded enterprise cards/buttons, and a highly visible QR gate pass for scanning.
+        </p>
+      </div>
+      <div class="badge"><span class="dot"></span> High‑fidelity reference for Power Apps / React / Flutter</div>
+    </div>
+
+    <div class="grid">
+
+      <!-- ===================== SCREEN 1 — Employee Home ===================== -->
+      <div>
+        <div class="device phone">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span>
+                <div class="pill" aria-hidden="true"></div>
+                <span>LTE ▮▮▮ 92%</span>
+              </div>
+
+              <div class="appbar">
+                <div class="brand">
+                  <div class="logo">COMPANY<br/>LOGO</div>
+                  <div class="app-title">
+                    <div class="topline">Employee</div>
+                    <div class="headline">Gate Pass</div>
+                  </div>
+                </div>
+                <button class="icon-btn" aria-label="Notifications">
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M15 17H6a3 3 0 0 0 3-3V9a3 3 0 0 1 6 0v5a3 3 0 0 0 3 3h-3"/>
+                    <path d="M10 17a2 2 0 0 0 4 0"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="content">
+                <div class="h1">Good Afternoon, Innocent 👋</div>
+                <p class="sub">Manage your gate passes easily.</p>
+
+                <div class="row">
+                  <div class="card summary">
+                    <div class="k">Pending</div>
+                    <div class="v" style="color:#8A5A00;">2</div>
+                  </div>
+                  <div class="card summary">
+                    <div class="k">Approved</div>
+                    <div class="v" style="color:#137A3A;">4</div>
+                  </div>
+                  <div class="card summary">
+                    <div class="k">Completed</div>
+                    <div class="v" style="color:rgba(15,23,42,.85);">11</div>
+                  </div>
+                </div>
+
+                <div style="height:10px"></div>
+                <button class="btn primary">
+                  <span style="font-size:18px; font-weight:1000; line-height:0;">+</span>
+                  Request Gate Pass
+                </button>
+
+                <div class="section-title">
+                  <h3>Recent Requests</h3>
+                  <span class="link">See all</span>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261008-001</div>
+                      <div class="purpose">Official Assignment</div>
+                      <div class="meta">
+                        <span>08 Oct 2026</span>
+                        <span>•</span>
+                        <span>2:30 PM → 4:30 PM</span>
+                      </div>
+                    </div>
+                    <span class="chip approved">APPROVED</span>
+                  </div>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261008-002</div>
+                      <div class="purpose">Medical Appointment</div>
+                      <div class="meta">
+                        <span>08 Oct 2026</span>
+                        <span>•</span>
+                        <span>11:10 AM → 1:20 PM</span>
+                      </div>
+                    </div>
+                    <span class="chip pending">PENDING</span>
+                  </div>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261007-019</div>
+                      <div class="purpose">Personal Errand</div>
+                      <div class="meta">
+                        <span>07 Oct 2026</span>
+                        <span>•</span>
+                        <span>3:00 PM → 3:45 PM</span>
+                      </div>
+                    </div>
+                    <span class="chip rejected">REJECTED</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bottomnav">
+                <div class="navitem active">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  Home
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.5M3.5 12h.5M3.5 18h.5" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Requests
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke-width="1.8"/><path d="M8 10h8M8 14h6" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Gate Pass
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 1 0-16 0" stroke-width="1.8"/><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke-width="1.8"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">SCREEN 1 — Employee Home</div>
+      </div>
+
+      <!-- ===================== SCREEN 2 — Request Gate Pass ===================== -->
+      <div>
+        <div class="device phone">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span><div class="pill"></div><span>LTE ▮▮▮ 92%</span>
+              </div>
+
+              <div class="appbar">
+                <button class="icon-btn" aria-label="Back">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg>
+                </button>
+                <div class="brand" style="justify-content:center; flex:1;">
+                  <div class="app-title" style="text-align:center;">
+                    <div class="topline">Employee</div>
+                    <div class="headline">Request Gate Pass</div>
+                  </div>
+                </div>
+                <div style="width:40px;"></div>
+              </div>
+
+              <div class="content">
+                <div class="form">
+                  <div class="card field">
+                    <div class="label">Staff Name <span class="placeholder">Auto</span></div>
+                    <div class="input">Innocent Ezie</div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">Staff ID</div>
+                    <div class="input">FID-1024</div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">Department</div>
+                    <div class="input">Digital Solutions &amp; BPA</div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">Purpose of Leaving</div>
+                    <div class="input"><span class="placeholder">Select purpose</span><span>▾</span></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="card field" style="flex:1;">
+                      <div class="label">Date</div>
+                      <div class="input"><span>08 Oct 2026</span><span>📅</span></div>
+                    </div>
+                    <div class="card field" style="flex:1;">
+                      <div class="label">Expected Time Out</div>
+                      <div class="input"><span>2:30 PM</span><span>⏱</span></div>
+                    </div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">Expected Time In</div>
+                    <div class="input"><span>4:30 PM</span><span>⏱</span></div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">HOD / Line Manager</div>
+                    <div class="input"><span class="placeholder">Select approver</span><span>▾</span></div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">HR Approver</div>
+                    <div class="input"><span class="placeholder">Select approver</span><span>▾</span></div>
+                  </div>
+
+                  <div class="card field">
+                    <div class="label">Additional Comment</div>
+                    <div class="input textarea"><span class="placeholder">Add any helpful details for your approvers…</span></div>
+                  </div>
+
+                  <div class="infocard">
+                    <strong>Info:</strong> Your request will be sent to your HOD and HR for approval.
+                    Your QR Code will become available after both approvals are completed.
+                  </div>
+
+                  <button class="btn primary">Submit Request</button>
+                  <button class="btn ghost">Save Draft</button>
+                </div>
+              </div>
+
+              <div class="bottomnav">
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  Home
+                </div>
+                <div class="navitem active">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.5M3.5 12h.5M3.5 18h.5" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Requests
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke-width="1.8"/><path d="M8 10h8M8 14h6" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Gate Pass
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 1 0-16 0" stroke-width="1.8"/><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke-width="1.8"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">SCREEN 2 — Request Gate Pass</div>
+      </div>
+
+      <!-- ===================== SCREEN 3 — Approval Status ===================== -->
+      <div>
+        <div class="device phone">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span><div class="pill"></div><span>LTE ▮▮▮ 92%</span>
+              </div>
+
+              <div class="appbar">
+                <button class="icon-btn" aria-label="Back">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg>
+                </button>
+                <div class="brand" style="justify-content:center; flex:1;">
+                  <div class="app-title" style="text-align:center;">
+                    <div class="topline">Gate Pass</div>
+                    <div class="headline">Gate Pass Details</div>
+                  </div>
+                </div>
+                <div style="width:40px;"></div>
+              </div>
+
+              <div class="content">
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261008-001</div>
+                      <div class="purpose">Official Assignment</div>
+                      <div class="meta">
+                        <span>08 October 2026</span>
+                        <span>•</span>
+                        <span>2:30 PM → 4:30 PM</span>
+                      </div>
+                    </div>
+                    <span class="chip approved">APPROVED</span>
+                  </div>
+                </div>
+
+                <div class="kv">
+                  <div class="card item">
+                    <div class="k">Staff Name</div>
+                    <div class="v">Innocent Ezie</div>
+                  </div>
+                  <div class="card item">
+                    <div class="k">Department</div>
+                    <div class="v">Digital Solutions &amp; BPA</div>
+                  </div>
+                  <div class="card item">
+                    <div class="k">Expected Time Out</div>
+                    <div class="v">2:30 PM</div>
+                  </div>
+                  <div class="card item">
+                    <div class="k">Expected Time In</div>
+                    <div class="v">4:30 PM</div>
+                  </div>
+                </div>
+
+                <div class="card timeline">
+                  <div class="trow">
+                    <div class="ticon ok">
+                      <svg class="icon" viewBox="0 0 24 24" style="stroke:currentColor;">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                    </div>
+                    <div class="ttext">
+                      <div class="title">Request Submitted</div>
+                      <div class="desc">08 Oct 2026 • 2:05 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="trow">
+                    <div class="ticon ok">
+                      <svg class="icon" viewBox="0 0 24 24" style="stroke:currentColor;">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                    </div>
+                    <div class="ttext">
+                      <div class="title">HOD Approval</div>
+                      <div class="desc">Approved • 08 Oct 2026 • 2:10 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="trow">
+                    <div class="ticon ok">
+                      <svg class="icon" viewBox="0 0 24 24" style="stroke:currentColor;">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                    </div>
+                    <div class="ttext">
+                      <div class="title">HR Approval</div>
+                      <div class="desc">Approved • 08 Oct 2026 • 2:11 PM</div>
+                    </div>
+                  </div>
+
+                  <div class="trow">
+                    <div class="ticon ok">
+                      <svg class="icon" viewBox="0 0 24 24" style="stroke:currentColor;">
+                        <path d="M20 6 9 17l-5-5"/>
+                      </svg>
+                    </div>
+                    <div class="ttext">
+                      <div class="title">Gate Pass Approved</div>
+                      <div class="desc">QR Code available</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="status-card">
+                  <div>
+                    <div style="font-size:12px; color: rgba(15,23,42,.72); font-weight:900;">Status</div>
+                    <div class="big">APPROVED</div>
+                  </div>
+                  <span class="chip approved">READY</span>
+                </div>
+
+                <div style="height:10px"></div>
+                <button class="btn primary">View QR Code</button>
+              </div>
+
+              <div class="bottomnav">
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  Home
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.5M3.5 12h.5M3.5 18h.5" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Requests
+                </div>
+                <div class="navitem active">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke-width="1.8"/><path d="M8 10h8M8 14h6" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Gate Pass
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 1 0-16 0" stroke-width="1.8"/><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke-width="1.8"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">SCREEN 3 — Approval Status</div>
+      </div>
+
+      <!-- ===================== SCREEN 4 — QR Code Gate Pass ===================== -->
+      <div>
+        <div class="device phone">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span><div class="pill"></div><span>LTE ▮▮▮ 92%</span>
+              </div>
+
+              <div class="appbar">
+                <button class="icon-btn" aria-label="Back">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></svg>
+                </button>
+                <div class="brand" style="justify-content:center; flex:1;">
+                  <div class="app-title" style="text-align:center;">
+                    <div class="topline">Gate Pass</div>
+                    <div class="headline">Your Gate Pass</div>
+                  </div>
+                </div>
+                <button class="icon-btn" aria-label="More">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M6 12h.01M12 12h.01M18 12h.01"/></svg>
+                </button>
+              </div>
+
+              <div class="content">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                  <span class="pill-status">APPROVED</span>
+                  <span class="chip approved">READY FOR CHECKOUT</span>
+                </div>
+
+                <div class="card" style="padding: 12px; margin-top: 10px;">
+                  <div style="display:flex; justify-content:space-between; gap:10px;">
+                    <div>
+                      <div style="font-size:16px; font-weight:1000; letter-spacing:-.2px;">Innocent Ezie</div>
+                      <div style="margin-top:4px; color:var(--muted); font-weight:800; font-size:12px;">FID-1024 • Digital Solutions &amp; BPA</div>
+                    </div>
+                    <div style="text-align:right;">
+                      <div class="mono">GP-20261008-001</div>
+                      <div style="margin-top:4px; color:var(--muted); font-weight:800; font-size:12px;">08 Oct 2026</div>
+                    </div>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div class="card" style="padding:10px 12px; border-radius: 14px; box-shadow:none; background: var(--surface-2);">
+                      <div class="k" style="font-size:11px;">Purpose</div>
+                      <div class="v" style="margin-top:6px; font-weight:950;">Official Assignment</div>
+                    </div>
+                    <div class="card" style="padding:10px 12px; border-radius: 14px; box-shadow:none; background: var(--surface-2);">
+                      <div class="k" style="font-size:11px;">Time</div>
+                      <div class="v" style="margin-top:6px; font-weight:950;">2:30 PM → 4:30 PM</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card qr-wrap">
+                  <div class="qr" aria-label="Large QR Code"></div>
+                  <div style="color: rgba(15,23,42,.78); font-size: 12.5px; font-weight: 800; line-height: 1.35;">
+                    Present this QR Code to Security at the gate.
+                  </div>
+
+                  <div class="card" style="padding: 10px 12px; border-radius: 14px; box-shadow:none; background: var(--surface-2); border-color: rgba(229,234,242,.9);">
+                    <div style="display:flex; justify-content:space-between; gap:10px; align-items:center;">
+                      <div>
+                        <div class="k" style="font-size:11px;">Gate Pass ID</div>
+                        <div class="mono" style="margin-top:6px;">GP-20261008-001</div>
+                      </div>
+                      <span class="chip approved">READY FOR CHECKOUT</span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <button class="btn ghost" style="flex:1;">Download</button>
+                    <button class="btn primary" style="flex:1;">Share</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bottomnav">
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  Home
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.5M3.5 12h.5M3.5 18h.5" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Requests
+                </div>
+                <div class="navitem active">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke-width="1.8"/><path d="M8 10h8M8 14h6" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Gate Pass
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 1 0-16 0" stroke-width="1.8"/><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke-width="1.8"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">SCREEN 4 — QR Code Gate Pass (Primary)</div>
+      </div>
+
+      <!-- ===================== SCREEN 5 — My Gate Passes ===================== -->
+      <div>
+        <div class="device phone">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span><div class="pill"></div><span>LTE ▮▮▮ 92%</span>
+              </div>
+
+              <div class="appbar">
+                <div class="brand">
+                  <div class="logo">COMPANY<br/>LOGO</div>
+                  <div class="app-title">
+                    <div class="topline">Employee</div>
+                    <div class="headline">My Gate Passes</div>
+                  </div>
+                </div>
+                <button class="icon-btn" aria-label="Search">
+                  <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M10.5 18a7.5 7.5 0 1 1 7.5-7.5A7.5 7.5 0 0 1 10.5 18Z"/>
+                    <path d="M20 20l-3.3-3.3"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="content">
+                <div class="tabs">
+                  <div class="tab active">All</div>
+                  <div class="tab">Pending</div>
+                  <div class="tab">Approved</div>
+                  <div class="tab">Completed</div>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261008-001</div>
+                      <div class="purpose">Official Assignment</div>
+                      <div class="meta">
+                        <span>08 Oct 2026</span>
+                        <span>•</span>
+                        <span>2:30 PM → 4:30 PM</span>
+                      </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                      <span class="chip approved">Approved</span>
+                      <button class="btn ghost" style="height:38px; width:92px; border-radius: 12px; font-size:12px;">View</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261008-002</div>
+                      <div class="purpose">Medical Appointment</div>
+                      <div class="meta">
+                        <span>08 Oct 2026</span>
+                        <span>•</span>
+                        <span>11:10 AM → 1:20 PM</span>
+                      </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                      <span class="chip pending">Pending</span>
+                      <button class="btn ghost" style="height:38px; width:92px; border-radius: 12px; font-size:12px;">View</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card request-card">
+                  <div class="request-top">
+                    <div>
+                      <div class="mono">GP-20261006-014</div>
+                      <div class="purpose">Client Meeting (Ikeja)</div>
+                      <div class="meta">
+                        <span>06 Oct 2026</span>
+                        <span>•</span>
+                        <span>9:00 AM → 12:30 PM</span>
+                      </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+                      <span class="chip approved">Completed</span>
+                      <button class="btn ghost" style="height:38px; width:92px; border-radius: 12px; font-size:12px;">View</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="bottomnav">
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                  Home
+                </div>
+                <div class="navitem active">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.5M3.5 12h.5M3.5 18h.5" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Requests
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke-width="1.8"/><path d="M8 10h8M8 14h6" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  Gate Pass
+                </div>
+                <div class="navitem">
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 1 0-16 0" stroke-width="1.8"/><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Z" stroke-width="1.8"/></svg>
+                  Profile
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-label">SCREEN 5 — My Gate Passes</div>
+      </div>
+
+      <!-- ===================== SCREEN 6 — Security Dashboard (Tablet) ===================== -->
+      <div>
+        <div class="device tablet">
+          <div class="glass">
+            <div class="screen">
+              <div class="statusbar">
+                <span>2:12</span><div class="pill"></div><span>Wi‑Fi ▮▮▮ 90%</span>
+              </div>
+
+              <div class="appbar">
+                <div class="brand">
+                  <div class="logo">COMPANY<br/>LOGO</div>
+                  <div class="app-title">
+                    <div class="topline">Security</div>
+                    <div class="headline">Security Gate Pass</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                  <button class="icon-btn" aria-label="History">
+                    <svg class="icon" viewBox="0 0 24 24">
+                      <path d="M3 12a9 9 0 1 0 3-6.7"/>
+                      <path d="M3 4v6h6"/>
+                      <path d="M12 7v6l4 2"/>
+                    </svg>
+                  </button>
+                  <button class="icon-btn" aria-label="Settings">
+                    <svg class="icon" viewBox="0 0 24 24">
+                      <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z"/>
+                      <path d="M19.4 15a7.8 7.8 0 0 0 .1-6l-2 .7a6 6 0 0 0-1.3-1.3l.7-2a7.8 7.8 0 0 0-6-.1l.7 2a6 6 0 0 0-1.3 1.3l-2-.7a7.8 7.8 0 0 0-.1 6l2-.7a6 6 0 0 0 
